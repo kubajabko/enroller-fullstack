@@ -13,6 +13,7 @@
         <div v-else>
             <button :class="registerForm ? 'button-outline' : ''" @click="swtichForLogin">Logowanie</button>
             <button :class="loginForm ? 'button-outline' : ''" @click="swtichForRegister">Rejestracja</button>
+            <div v-if="error" class="error-alert">{{error}}</div>
             <div v-if="loginForm">
                 <login-form @login="login($event)"></login-form>
             </div>
@@ -33,7 +34,7 @@
         components: {RegisterForm, LoginForm, MeetingsPage},
         data() {
             return {
-                authenticatedUsername: "", loginForm: true, registerForm: false,
+                authenticatedUsername: "", loginForm: true, registerForm: false, error: '',
             };
         },
         methods: {
@@ -49,7 +50,7 @@
                         // udało się
                     })
                     .catch(response => {
-                        // nie udało sie
+                        this.error = 'Taki użytkownik już istnieje'// nie udało sie
                     });
             },
             swtichForLogin() {
@@ -72,6 +73,14 @@
 
     .logo {
         vertical-align: middle;
+    }
+    .error-alert {
+        border: 2px dotted red;
+        background: pink;
+        padding:  10px;
+        text-align: center;
+        border-radius: 5px;
+        font-weight: bold;
     }
 </style>
 
