@@ -14,23 +14,23 @@
             <td>{{ meeting.title }}</td>
             <td>{{ meeting.date }}</td>
             <td>{{ meeting.description }}</td>
-<!--            <td>-->
-<!--                <ul v-if="meeting.participants">-->
-<!--                    <li v-for="participant in meeting.participants" :key="participant.login">-->
-<!--                        {{ participant.login }}-->
-<!--                    </li>-->
-<!--                </ul>-->
-<!--            </td>-->
-<!--            <td style="text-align: right; min-width: 400px">-->
-<!--                <button v-if="!userIsEnrolled(meeting)" class="button-outline"-->
-<!--                        @click="$emit('attend', meeting)">-->
-<!--                    Zapisz się-->
-<!--                </button>-->
-<!--                <button v-else class="button-outline" @click="$emit('unattend', meeting)">Wypisz się</button>-->
-<!--                <button v-if="meeting.participants.length === 0" class="button" @click="$emit('delete', meeting)">-->
-<!--                    Usuń puste spotkanie-->
-<!--                </button>-->
-<!--            </td>-->
+            <td>
+                <ul v-if="meeting.participants">
+                    <li v-for="participant in meeting.participants" :key="participant.login">
+                        {{ participant.login }}
+                    </li>
+                </ul>
+            </td>
+            <td style="text-align: right; min-width: 400px">
+                <button v-if="!userIsEnrolled(meeting)" class="button-outline"
+                        @click="$emit('attend', meeting)">
+                    Zapisz się
+                </button>
+                <button v-else class="button-outline" @click="$emit('unattend', meeting)">Wypisz się</button>
+                <button v-if="meeting.participants.length === 0" class="button" @click="$emit('delete', meeting)">
+                    Usuń puste spotkanie
+                </button>
+            </td>
         </tr>
         </tbody>
     </table>

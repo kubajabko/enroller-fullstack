@@ -1,11 +1,13 @@
 package com.company.enroller.controllers;
 
 import com.company.enroller.model.Meeting;
+import com.company.enroller.model.Participant;
 import com.company.enroller.persistence.MeetingService;
 import com.company.enroller.persistence.ParticipantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -44,6 +46,27 @@ public class MeetingRestController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         meetingService.removeMeeting(meeting);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+    @RequestMapping(value = "/{meetingId}/participants", method = RequestMethod.POST)
+    public ResponseEntity<?> enrollMe(@PathVariable long meetingId) {
+        Meeting meeting = meetingService.findById(meetingId);
+        if (meeting == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Participant participant = meetingService.addParticipant(username, meeting);
+        return new ResponseEntity<>(participant, HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/{meetingId}/participants/disenrollme", method = RequestMethod.DELETE)
+    public ResponseEntity<?> disenrollMe(@PathVariable long meetingId) {
+        Meeting meeting = meetingService.findById(meetingId);
+        if (meeting == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        meetingService.removeParticipant(username, meeting);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
