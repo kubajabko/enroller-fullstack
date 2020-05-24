@@ -11,6 +11,7 @@
     <tbody>
     <tr v-for="meeting in meetings" :key="meeting.title">
       <td>{{ meeting.title }}</td>
+      <td>{{ meeting.date }}</td>
       <td>{{ meeting.description }}</td>
       <td>
         <ul v-if="meeting.participants">

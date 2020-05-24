@@ -13,7 +13,7 @@
                        :username="username"
                        @attend="addMeetingParticipant($event)"
                        @unattend="removeMeetingParticipant($event)"
-                       @delete="deleteMeeting($event)"></meetings-list>
+                       @delete="removeMeeting($event)"></meetings-list>
     </div>
 </template>
 
@@ -39,15 +39,14 @@
             removeMeetingParticipant(meeting) {
                 meeting.participants.splice(meeting.participants.indexOf(this.username), 1);
             },
-            deleteMeeting(meeting) {
-                this.meetings.splice(this.meetings.indexOf(meeting), 1);
+            removeMeeting(meeting) {
+                this.$http.delete(`meetings/${meeting.id}`).then(() => this.meetings.splice(this.meetings.indexOf(meeting), 1));
             }
         },
         mounted() {
-            fetch(this.$http.get('meetings'))
-                .then((data) => {
-                    this.meetings = data;
-                })
+            this.$http.get('meetings').then(response => {
+                this.meetings = response.body;
+            });
         }
     }
 </script>
