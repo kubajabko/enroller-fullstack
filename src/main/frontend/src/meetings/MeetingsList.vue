@@ -22,12 +22,13 @@
                 </ul>
             </td>
             <td style="text-align: right; min-width: 400px">
-                <button v-if="!userIsEnrolled(meeting)" class="button-outline"
-                        @click="$emit('attend', meeting)">
-                    Zapisz się
-                </button>
-                <button v-else class="button-outline" @click="$emit('unattend', meeting)">Wypisz się</button>
-                <button v-if="meeting.participants.length === 0" class="button" @click="$emit('delete', meeting)">
+<!--                <button v-if="meeting.participants.indexOf(username) < 0" class="button-outline"-->
+<!--                        @click="$emit('attend', meeting)">-->
+<!--                    Zapisz się-->
+<!--                </button>-->
+<!--                <button v-else class="button-outline" @click="$emit('unattend', meeting)">Wypisz się</button>-->
+<!--                <button v-if="meeting.participants.length === 0" class="button" @click="$emit('delete', meeting)">-->
+                <button class="button" @click="$emit('delete', meeting)">
                     Usuń puste spotkanie
                 </button>
             </td>
@@ -39,10 +40,5 @@
 <script>
     export default {
         props: ['meetings', 'username'],
-        methods: {
-            userIsEnrolled(meeting) {
-                return meeting.participants.map(p => p.login).indexOf(this.username) !== -1;
-            }
-        }
     }
 </script>

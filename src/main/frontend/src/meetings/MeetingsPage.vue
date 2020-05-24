@@ -31,23 +31,24 @@
         },
         methods: {
             addNewMeeting(meeting) {
-                this.$http.post('meetings', meeting);
+                this.$http.post('meetings', meeting)
+                    .then(response => this.meetings.push(response.data));
             },
             addMeetingParticipant(meeting) {
                 this.$http.post(`meetings/${meeting.id}/participants`)
-                    .then(response => meeting.participants.push(response.body));
+                    .then(response => this.meetings.find(m => m.id === meeting.id).participants = response.data.participants);
             },
             removeMeetingParticipant(meeting) {
                 this.$http.delete(`meetings/${meeting.id}/participants/disenrollme`)
-                    .then(() => meeting.participants.splice(meeting.participants.map(p => p.login).indexOf(this.username), 1));
+                    .then(response => this.meetings.find(m => m.id === meeting.id).participants = response.data.participants);
             },
             removeMeeting(meeting) {
-                this.$http.delete(`meetings/${meeting.id}`).then(() => this.meetings.splice(this.meetings.indexOf(meeting), 1));
+                this.$http.delete(`meetings/${meeting.id}`).then(() => this.meetings = this.meetings.filter(m => m.id !== meeting.id));
             }
         },
         mounted() {
             this.$http.get('meetings').then(response => {
-                this.meetings = response.body;
+                this.meetings = response.data;
             });
         }
     }

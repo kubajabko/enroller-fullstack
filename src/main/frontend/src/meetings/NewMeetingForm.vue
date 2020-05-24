@@ -7,7 +7,7 @@
       <label>Opis</label>
       <textarea v-model="newMeeting.description"></textarea>
       <label>Data</label>
-      <input type="date" v-model="newMeeting.date"></input>
+      <input type="date" v-model="newMeeting.date">
       <button>Dodaj</button>
       <span class="error" v-if="error">Spotkanie musi mieć nazwę!</span>
     </form>
@@ -19,7 +19,7 @@
     export default {
         data() {
             return {
-                newMeeting: {},
+                newMeeting: {participants: []},
                 adding: false,
                 error: false
             };
@@ -29,7 +29,7 @@
                 this.error = false;
                 if (this.newMeeting.title) {
                     this.$emit('added', this.newMeeting);
-                    this.newMeeting = {};
+                    this.newMeeting = {participants: []};
                     this.adding = false;
                 } else {
                     this.error = true;
